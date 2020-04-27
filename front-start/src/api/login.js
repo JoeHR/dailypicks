@@ -1,23 +1,15 @@
 import axios from "@/util/request";
 
-const getCode = () => {
-  debugger;
-  return axios.get("/getCaptcha");
+const getCode = sid => {
+  return axios.get("/getCaptcha", {
+    params: { sid }
+  });
 };
 
 const forget = async option => {
-  let result = "";
-  try {
-    result = await axios.post("/forget", {
-      ...option
-    });
-    if (result.status === 200) {
-      return result.data;
-    }
-  } catch (e) {
-    console.log(e);
-  }
-  return result;
+  return axios.post("/forget", {
+    ...option
+  });
 };
 
 export { getCode, forget };
