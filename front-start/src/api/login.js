@@ -5,7 +5,7 @@ import axios from "@/util/request";
  * @param {} sid
  */
 const getCode = sid => {
-  return axios.get("/getCaptcha", {
+  return axios.get("/public/getCaptcha", {
     params: { sid }
   });
 };

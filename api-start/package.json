@@ -10,7 +10,8 @@
     "dev": "cross-env NODE_ENV=dev nodemon --exec babel-node --inspect ./src/index.js",
     "clean": "rimraf dist",
     "watch": "cross-env NODE_ENV=dev webpack --watch --progress --hide-modules --config config/webpack.config.dev.js",
-    "debug": "nodemon --inspect ./dist/server.bundle.js"
+    "debug": "nodemon --inspect ./dist/server.bundle.js",
+    "start:dist": "npm-run-all -p watch debug"
   },
   "keywords": [],
   "author": "brian@toimc.com",
@@ -18,6 +19,7 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "bluebird": "^3.7.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.2",
     "koa-body": "^4.1.1",
     "koa-combine-routers": "^4.0.2",
@@ -43,6 +45,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
     "nodemon": "^1.19.3",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.0",
     "terser-webpack-plugin": "^2.1.2",
     "webpack": "^4.41.0",
