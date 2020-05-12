@@ -64,6 +64,8 @@
                           type="password"
                           name="password"
                           v-model="password"
+                          maxlength="16"
+                          minlength="6"
                           placeholder="请输入密码"
                           autocomplete="off"
                           class="layui-input"
@@ -170,8 +172,8 @@ export default {
   },
   methods: {
     _getCode () {
-      getCode().then((res) => {
-        console.log(res);
+      let sid = this.$store.state.sid;
+      getCode(sid).then((res) => {
         if (res.code === 200) {
           this.svg = res.data;
         }
