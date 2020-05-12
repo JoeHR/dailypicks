@@ -50,7 +50,12 @@
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <validation-provider name="code" rules="required|length:4" v-slot="{ errors }">
+                    <validation-provider
+                      ref="codefield"
+                      name="code"
+                      rules="required|length:4"
+                      v-slot="{ errors }"
+                    >
                       <div class="layui-row">
                         <label for="L_vercode" class="layui-form-label">验证码</label>
                         <div class="layui-input-inline">
@@ -113,7 +118,7 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
-  data() {
+  data () {
     return {
       username: "",
       password: "",
@@ -121,7 +126,8 @@ export default {
       svg: ""
     };
   },
-  mounted() {
+  mounted () {
+    window.vue = this;
     let sid = "";
     if (localStorage.getItem("sid")) {
       sid = localStorage.getItem("sid");
@@ -134,7 +140,7 @@ export default {
     this._getCode(sid);
   },
   methods: {
-    _getCode() {
+    _getCode () {
       let sid = this.$store.state.sid;
       getCode(sid).then(res => {
         console.log(res);
@@ -143,12 +149,12 @@ export default {
         }
       });
     },
-    async submit() {
+    async submit () {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) {
         return false;
       }
-      console.log(1111111)
+      console.log(1111111);
       login({
         username: this.username,
         password: this.password,
@@ -156,8 +162,23 @@ export default {
         sid: this.$store.state.sid
       }).then(res => {
         if (res.code === 200) {
-          console.log(res);
+          this.username = "";
+          this.password = "";
+          this.code = "";
+          requestAnimationFrame(() => {
+            this.$refs.observer.reset();
+          });
+        } else if (res.code === 401) {
+          this.$refs.codefield.setErrors([res.msg]);
         }
+      }).catch((err) => {
+        const data = err.response.data;
+        if (data.code === 500) {
+          this.$alert("用户名密码校验失败，请检查！");
+        } else {
+          this.$alert("服务器错误");
+        }
+        console.log(err);
       });
     }
   }

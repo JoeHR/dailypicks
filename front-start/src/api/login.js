@@ -25,7 +25,7 @@ const forget = async option => {
  * @param {*} loginInfo 用户登录信息
  */
 const login = loginInfo => {
-  return axios.post("/login", { ...loginInfo });
+  return axios.post("/login/login", { ...loginInfo });
 };
 
 export { getCode, forget, login };
