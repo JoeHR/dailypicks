@@ -77,7 +77,7 @@ class LoginController {
 
   async reg(ctx) {
     // 接收客户端的数据
-    const { body } = ctx
+    const { body } = ctx.request
     // 校验验证码的内容（时效性，有效性）
     let sid = body.sid
     let code = body.code
