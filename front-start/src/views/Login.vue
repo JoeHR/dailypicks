@@ -154,7 +154,6 @@ export default {
       if (!isValid) {
         return false;
       }
-      console.log(1111111);
       login({
         username: this.username,
         password: this.password,
