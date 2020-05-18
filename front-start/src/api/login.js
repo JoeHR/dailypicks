@@ -1,11 +1,11 @@
-import axios from "@/util/request";
+import axios from '@/util/request';
 
 /**
  * 获取验证码
  * @param {} sid
  */
 const getCode = sid => {
-  return axios.get("/public/getCaptcha", {
+  return axios.get('/public/getCaptcha', {
     params: { sid }
   });
 };
@@ -15,7 +15,7 @@ const getCode = sid => {
  * @param {*} option 用户信息（邮箱，验证码）
  */
 const forget = async option => {
-  return axios.post("/forget", {
+  return axios.post('/forget', {
     ...option
   });
 };
@@ -25,7 +25,7 @@ const forget = async option => {
  * @param {*} loginInfo 用户登录信息
  */
 const login = loginInfo => {
-  return axios.post("/login/login", { ...loginInfo });
+  return axios.post('/login/login', { ...loginInfo });
 };
 
 /**
@@ -33,7 +33,7 @@ const login = loginInfo => {
  * @param {*} regInfo 用户登录信息
  */
 const reg = regInfo => {
-  return axios.post("/login/reg", { ...regInfo });
+  return axios.post('/login/reg', { ...regInfo });
 };
 
 export { getCode, forget, login, reg };

@@ -1,15 +1,13 @@
 module.exports = {
   presets: [
-    '@vue/app',
+    "@vue/cli-plugin-babel/preset",
     [
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
-        'useBuiltIns': 'usage',
-        'corejs': 2
+        useBuiltIns: "usage",
+        corejs: 3
       }
     ]
   ],
-  plugins: [
-    '@babel/plugin-transform-runtime'
-  ]
-}
+  plugins: ["@babel/plugin-transform-runtime"]
+};

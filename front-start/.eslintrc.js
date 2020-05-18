@@ -155,7 +155,8 @@ module.exports = {
     "no-else-return": 0,
     "no-empty": 0,
     "no-empty-character-class": 2,
-    "no-empty-label": 2,
+    // "no-empty-label": 2,
+    "no-labels": [2, { allowLoop: false, allowSwitch: false }],
     "no-eq-null": 0,
     "no-eval": 2,
     "no-ex-assign": 2,
@@ -240,18 +241,26 @@ module.exports = {
     ],
     "padded-blocks": 0,
     "prefer-const": 0,
-    "quote-props": 0,
-    quotes: ["error", "double", { avoidEscape: true }],
+    quotes: ["error", "single"],
     radix: 2,
     semi: ["error", "always"],
     "semi-spacing": 0,
     "sort-vars": 0,
-    "space-after-keywords": [2, "always"],
+    // "space-after-keywords": [2, "always"],
+    "keyword-spacing": [
+      "error",
+      {
+        overrides: {
+          if: { after: false },
+          for: { after: false },
+          while: { after: false }
+        }
+      }
+    ],
     "space-before-blocks": [2, "always"],
     "space-before-function-paren": [2, "always"],
     "space-in-parens": [2, "never"],
     "space-infix-ops": 2,
-    "space-return-throw-case": 2,
     "space-unary-ops": [2, { words: true, nonwords: false }],
     "spaced-comment": [
       2,
