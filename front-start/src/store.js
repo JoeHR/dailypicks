@@ -1,14 +1,16 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    sid: ""
+    sid: '',
+    isLogin: false,
+    token: ''
   },
   mutations: {
-    setSid(state, sid) {
+    setSid (state, sid) {
       state.sid = sid;
     }
   },
