@@ -14,11 +14,12 @@
         <a :class="{'layui-this': sort==='answer'}" @click.prevent="search(4)">按热议</a>
       </span>
     </div>
-    <list-item></list-item>
+    <list-item :lists="lists" @nextpage="nextPage()"></list-item>
   </div>
 </template>
 
 <script>
+import {getList} from '@/api/content';
 import ListItem from './ListItem';
 export default {
   name: 'list',
@@ -26,13 +27,103 @@ export default {
     return {
       status: '',
       tag: '精华',
-      sort: 'created'
+      sort: 'created',
+      page: 0,
+      limit: 20,
+      catalog: '',
+      lists: [{
+        uid: {
+          name: 'imooc',
+          isVip: 1
+        },
+        title: '大前端',
+        content: '',
+        created: '2020-05-26 01:00:00',
+        catalog: 'ask',
+        fav: 40,
+        isEnd: 0,
+        reads: 10,
+        answer: 0,
+        status: 0,
+        isTop: 0,
+        tags: [{
+          name: '精华',
+          class: 'layui-bg-red'
+        }, {
+          name: '热门',
+          class: 'layui-bg-blue'
+        }]
+      }, {
+        uid: {
+          name: 'imooc',
+          isVip: 1
+        },
+        title: '大前端',
+        content: '',
+        created: '2020-05-26 01:00:00',
+        catalog: 'ask',
+        fav: 40,
+        isEnd: 0,
+        reads: 10,
+        answer: 0,
+        status: 0,
+        isTop: 0,
+        tags: [{
+          name: '精华',
+          class: 'layui-bg-red'
+        }, {
+          name: '热门',
+          class: 'layui-bg-blue'
+        }]
+      }, {
+        uid: {
+          name: 'imooc',
+          isVip: 1
+        },
+        title: '大前端',
+        content: '',
+        created: '2020-05-26 01:00:00',
+        catalog: 'ask',
+        fav: 40,
+        isEnd: 0,
+        reads: 10,
+        answer: 0,
+        status: 0,
+        isTop: 0,
+        tags: [{
+          name: '精华',
+          class: 'layui-bg-red'
+        }, {
+          name: '热门',
+          class: 'layui-bg-blue'
+        }]
+      }]
     };
   },
   components: {
     ListItem
   },
+  mounted () {
+    this.getLists();
+  },
   methods: {
+    getLists () {
+      let options = {
+        catalog: this.catalog,
+        isTop: 0,
+        page: this.page,
+        limit: this.limit,
+        sort: this.sort,
+        tag: this.tag,
+        status: this.status
+      };
+      getList(options).then(res => {
+        console.log(res);
+      });
+    },
+    nextPage () {
+      this.page++;
+    },
     search (val) {
       switch (val) {
         // 未结帖
