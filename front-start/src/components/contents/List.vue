@@ -119,6 +119,20 @@ export default {
       };
       getList(options).then(res => {
         console.log(res);
+        // 对于异常的判断，res.code 非200，我们给用户一个提示
+        // 判断是否lists 长度为0，如果为0即可以直接赋值
+        // 当lists 长度不为0，后面请求的数据，加入到lists里面来
+        if(res.code === 200) {
+          if(this.lists.length === 0) {
+            this.lists = res.data;
+          } else {
+            this.lists = this.lists.concat(res.data);
+          }
+        }
+      }).catch(err => {
+        if(err) {
+          this.$alert(err.msg);
+        }
       });
     },
     nextPage () {
