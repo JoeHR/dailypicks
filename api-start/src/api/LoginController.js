@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs'
 import moment from 'moment'
 import jsonwebtoken from 'jsonwebtoken'
 import config from '../config/index'
-import { checkCode } from '@/common/utils'
-import User from '@/model/User'
+import { checkCode } from '../common/utils'
+import User from '../model/User'
 class LoginController {
   constructor() {}
   async forget(ctx) {

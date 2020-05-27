@@ -76,13 +76,11 @@
 <script>
 export default {
   name: 'Header'
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .fly-logo {
-  left: -15px;
-  top: -10px;
   margin-left: 15px;
 }
 </style>

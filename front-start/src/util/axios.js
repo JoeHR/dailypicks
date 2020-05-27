@@ -1,31 +1,45 @@
 // 封装 axios 的请求，返回重新封装的数据格式
 // 对错误的统一处理
-import axios from "axios";
-import errorHandle from "./errorHandle";
+import axios from 'axios';
+import errorHandle from './errorHandle';
+const CancelToken = axios.CancelToken;
 
 class HttpRequest {
-  constructor(baseUrl) {
+  constructor (baseUrl) {
     this.baseUrl = baseUrl;
+    this.pending = {};
   }
 
   // 获取 axios 配置
-  getInsideConfig() {
+  getInsideConfig () {
     const config = {
       baseURL: this.baseUrl,
       headers: {
-        "Content-Type": "application/json;charset=utf-8"
+        'Content-Type': 'application/json;charset=utf-8'
       },
       timeout: 10000
     };
     return config;
   }
 
+  removePending (key, isRequest = false) {
+    if(this.pending[key] && isRequest) {
+      this.pending[key]('取消重复请求');
+    }
+    delete this.pending[key];
+  }
+
   // 设定拦截器
-  interceptors(instance) {
+  interceptors (instance) {
     // Add a request interceptor
     instance.interceptors.request.use(
       config => {
         // Do something before request is sent
+        let key = config.url + '&' + config.method;
+        this.removePending(key, true);
+        config.cancelToken = new CancelToken((c) => {
+          this.pending[key] = c;
+        });
         return config;
       },
       err => {
@@ -40,7 +54,9 @@ class HttpRequest {
       res => {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
-        if (res.status === 200) {
+        let key = res.config.url + '&' + res.config.method;
+        this.removePending(key);
+        if(res.status === 200) {
           return Promise.resolve(res.data);
         } else {
           return Promise.reject(res);
@@ -56,17 +72,17 @@ class HttpRequest {
   }
 
   // 创建实例
-  request(options) {
+  request (options) {
     const instance = axios.create();
     const newOptions = Object.assign(this.getInsideConfig(), options);
     this.interceptors(instance);
     return instance(newOptions);
   }
 
-  get(url, config) {
+  get (url, config) {
     const options = Object.assign(
       {
-        method: "get",
+        method: 'get',
         url: url
       },
       config
@@ -74,9 +90,9 @@ class HttpRequest {
     return this.request(options);
   }
 
-  post(url, data) {
+  post (url, data) {
     return this.request({
-      method: "post",
+      method: 'post',
       url: url,
       data: data
     });
