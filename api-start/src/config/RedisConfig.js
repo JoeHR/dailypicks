@@ -24,7 +24,7 @@ const options = {
     }
     // reconnect after
     return Math.min(options.attempt * 100, 3000)
-  },
+  }
 }
 
 // const client = redis.createClient(options)
