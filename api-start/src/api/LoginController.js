@@ -111,6 +111,11 @@ class LoginController {
           data: result,
           msg: '注册成功'
         }
+      } else {
+        ctx.body = {
+          code: 500,
+          msg: msg
+        }
       }
     } else {
       msg.code = ['验证码已经失效，请重新获取']
