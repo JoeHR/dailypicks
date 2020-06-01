@@ -65,8 +65,20 @@ PostSchema.statics = {
       .limit(limit)
       .populate({
         path: 'uid',
-        selet: 'name isVip pic'
+        select: 'name isVip pic'
       })
+  },
+
+  // 本周热议
+  getTopWeek: function () {
+    return this.find({
+      created: {
+        $gte: moment().subtract(7, 'days')
+      }
+    }, {
+      answer: 1,
+      title: 1
+    }).sort({ answer: -1 }).limit(15)
   }
 }
 

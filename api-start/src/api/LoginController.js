@@ -31,7 +31,7 @@ class LoginController {
     // 接收用户的数据
 
     // 返回token
-    console.log('Hello login')
+    // console.log('Hello login')
     // let token = jsonwebtoken.sign(
     //   { _id: 'rh', exp: Math.floor(Date.now() / 1000 + 60 * 60 * 24) },
     //   config.JWT_SECRET
@@ -105,7 +105,9 @@ class LoginController {
           password: body.password,
           created: moment().format('YYYY-MM-DD HH:mm:ss')
         })
+        // console.log('reg -> moment()', moment().format('YYYY-MM-DD HH:mm:ss'))
         const result = await user.save()
+        console.log(result)
         ctx.body = {
           code: 200,
           data: result,

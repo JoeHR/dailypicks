@@ -28,7 +28,7 @@ export default {
       isRepeat: false,
       current: '',
       status: '',
-      tag: '精华',
+      tag: '',
       sort: 'created',
       page: 0,
       limit: 20,
@@ -67,7 +67,7 @@ export default {
       if(this.isEnd) { return; };
       this.isRepeat = true;
       let options = {
-        catalog: this.catalog,
+        catalog: this.$route.params.catalog,
         isTop: 0,
         page: this.page,
         limit: this.limit,
