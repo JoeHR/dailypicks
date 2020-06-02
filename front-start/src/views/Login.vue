@@ -109,33 +109,33 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { getCode, login } from "@/api/login";
-import uuid from "uuid/v4";
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { getCode, login } from '@/api/login';
+import uuid from 'uuid/v4';
 export default {
-  name: "login",
+  name: 'login',
   components: {
     ValidationProvider,
     ValidationObserver
   },
   data () {
     return {
-      username: "",
-      password: "",
-      code: "",
-      svg: ""
+      username: '',
+      password: '',
+      code: '',
+      svg: ''
     };
   },
   mounted () {
     window.vue = this;
-    let sid = "";
-    if (localStorage.getItem("sid")) {
-      sid = localStorage.getItem("sid");
+    let sid = '';
+    if(localStorage.getItem('sid')) {
+      sid = localStorage.getItem('sid');
     } else {
       sid = uuid();
-      localStorage.setItem("sid", sid);
+      localStorage.setItem('sid', sid);
     }
-    this.$store.commit("setSid", sid);
+    this.$store.commit('setSid', sid);
     console.log(sid);
     this._getCode(sid);
   },
@@ -144,14 +144,14 @@ export default {
       let sid = this.$store.state.sid;
       getCode(sid).then(res => {
         console.log(res);
-        if (res.code === 200) {
+        if(res.code === 200) {
           this.svg = res.data;
         }
       });
     },
     async submit () {
       const isValid = await this.$refs.observer.validate();
-      if (!isValid) {
+      if(!isValid) {
         return false;
       }
       login({
@@ -160,22 +160,25 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
-        if (res.code === 200) {
-          this.username = "";
-          this.password = "";
-          this.code = "";
+        if(res.code === 200) {
+          this.$store.commit('setUserInfo', res.data);
+          this.$store.commit('setIsLogin', true);
+          this.username = '';
+          this.password = '';
+          this.code = '';
           requestAnimationFrame(() => {
             this.$refs.observer.reset();
           });
-        } else if (res.code === 401) {
+          this.$router.push({name: 'index'});
+        } else if(res.code === 401) {
           this.$refs.codefield.setErrors([res.msg]);
         }
       }).catch((err) => {
         const data = err.response.data;
-        if (data.code === 500) {
-          this.$alert("用户名密码校验失败，请检查！");
+        if(data.code === 500) {
+          this.$alert('用户名密码校验失败，请检查！');
         } else {
-          this.$alert("服务器错误");
+          this.$alert('服务器错误');
         }
         console.log(err);
       });

@@ -51,12 +51,18 @@ class LoginController {
       }
       // mongoDB 查库
       if (checkUserPasswd) {
+        const userObj = user.toJSON()
+        const arr = ['password', 'username', 'roles']
+        arr.map(item => {
+          delete userObj[item]
+        })
         // 验证通过 返回 token 数据
         const token = jsonwebtoken.sign({ _id: 'rh' }, config.JWT_SECRET, {
           expiresIn: '1d'
         })
         ctx.body = {
           code: 200,
+          data: userObj,
           token: token
         }
       } else {
