@@ -1,0 +1,58 @@
+// .p-0 { padding:0 !important}
+// .px-0{ padding-right: 0 !important;padding-left: 0 !important;}
+$spacers:(
+  6:60px,
+  7:70px
+) !default;
+
+$utils:() !default;
+$spacer:10px;
+$spacers:map-merge($map1: (
+  0:0,
+  1:1*$spacer,
+  2:2*$spacer,
+  3:3*$spacer,
+  4:4*$spacer,
+  5:5*$spacer,
+  6:6*$spacer,
+), $map2:() );
+
+$utils:map-merge($map1: (
+  m:(
+    property:margin,
+    values:$spacers
+  ),
+  mx:(
+    property:margin-left margin-right,
+    values$spacers
+  ),
+  p:(
+    property:padding,
+    values:$spacers
+  ),
+  px:(
+    property:padding-left padding-right,
+    values:$spacers
+  )
+), $map2:$utils );
+
+// @each $key,$value in $spacers{
+//   .p-#{$key}{
+//     padding: $value;
+//   }
+// }
+
+@each $key,$value in $utils{
+  // 取utils的步进长度，循环的数据
+  $values:map-get($map:$value , $key: values);
+  @each $item-key,$item-value in $values {
+    // .px-{spacer-item}{padding-left: spacer-value !important!}
+    $properties:map.get($map:$value,$key:property);
+
+    .#{$key}-#{item-key}{
+      @each $property in $property {
+        #{$property}:$item-value !important;
+      }
+    }
+  }
+}

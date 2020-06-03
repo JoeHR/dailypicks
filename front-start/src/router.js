@@ -15,6 +15,13 @@ const Posts = () => import(/* webpackChunkName: 'user-posts' */ '@/components/us
 const Msg = () => import(/* webpackChunkName: 'user-msg' */ '@/components/user/Msg.vue');
 const Other = () => import(/* webpackChunkName: 'user-others' */ '@/components/user/Others.vue');
 const User = () => import(/* webpackChunkName: 'user' */ '@/views/User.vue');
+const MyInfo = () => import(/* webpackChunkName: 'common-info' */ '@/components/user/common/MyInfo.vue');
+const Accounts = () => import(/* webpackChunkName: 'common-accounts' */ '@/components/user/common/Accounts.vue');
+const Passwd = () => import(/* webpackChunkName: 'common-passwd' */ '@/components/user/common/Passwd.vue');
+const PicUpload = () => import(/* webpackChunkName: 'common-picupload' */ '@/components/user/common/PicUpload.vue');
+const MyPost = () => import(/* webpackChunkName: 'common-post' */ '@/components/user/common/MyPost.vue');
+const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');
+
 Vue.use(Router);
 
 export default new Router({
@@ -68,6 +75,7 @@ export default new Router({
     {
       path: '/center',
       component: Center,
+      linkActiveClass: 'layui-this',
       children: [
         {
           path: '',
@@ -77,12 +85,45 @@ export default new Router({
         {
           path: 'set',
           name: 'set',
-          component: Settings
+          component: Settings,
+          children: [
+            {
+              path: '',
+              name: 'info',
+              component: MyInfo
+            },
+            {
+              path: 'pic',
+              name: 'pic',
+              component: PicUpload
+            },
+            {
+              path: 'passwd',
+              name: 'passwd',
+              component: Passwd
+            },
+            {
+              path: 'account',
+              name: 'account',
+              component: Accounts
+            }
+          ]
         },
         {
           path: 'posts',
           name: 'posts',
-          component: Posts
+          component: Posts,
+          children: [
+            {
+              path: '',
+              name: 'mypost',
+              component: MyPost
+            }, {
+              path: 'mycollection',
+              name: 'mycollection',
+              component: MyCollection
+            }
+          ]
         },
         {
           path: 'msg',

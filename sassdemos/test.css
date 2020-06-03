@@ -1,0 +1,11 @@
+$test:3333;
+
+@warn $test;
+@debug 'hello debug sass: #{$test}';
+
+.hello {
+  body: red;
+}
+
+/* npx datrt-sass test.scss */
+/* npx sass test.scss */
