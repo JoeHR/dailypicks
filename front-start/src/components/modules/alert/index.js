@@ -1,4 +1,4 @@
-import AlertComponent from "./Alert.vue";
+import AlertComponent from './Alert.vue';
 
 const Alert = {};
 
@@ -7,23 +7,23 @@ Alert.install = Vue => {
 
   const instance = new AlertConstructor();
 
-  instance.$mount(document.createElement("div"));
+  instance.$mount(document.createElement('div'));
   document.body.appendChild(instance.$el);
 
   Vue.prototype.$alert = msg => {
-    instance.type = "alert";
+    instance.type = 'alert';
     instance.msg = msg;
     instance.isShow = true;
   };
 
   Vue.prototype.$confirm = (msg, success, cancel) => {
-    instance.type = "confirm";
+    instance.type = 'confirm';
     instance.msg = msg;
     instance.isShow = true;
-    if (typeof success !== "undefined") {
+    if(typeof success !== 'undefined') {
       instance.success = success;
     }
-    if (typeof cancel !== "undefined") {
+    if(typeof cancel !== 'undefined') {
       instance.cancel = success;
     }
   };

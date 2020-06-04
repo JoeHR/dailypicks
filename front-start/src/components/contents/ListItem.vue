@@ -53,7 +53,7 @@
 
 <script>
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'dayjs';
 import 'moment/locale/zh-cn';
 export default {
   name: 'listItem',

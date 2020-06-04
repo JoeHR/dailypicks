@@ -11,6 +11,8 @@
     "@babel/runtime": "^7.6.2",
     "axios": "^0.19.0",
     "core-js": "^3.6.4",
+    "dayjs": "^1.8.28",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "qs": "^6.9.4",

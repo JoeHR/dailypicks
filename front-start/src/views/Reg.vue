@@ -151,19 +151,19 @@
 </template>
 
 <script>
-import { getCode, reg } from "@/api/login";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { getCode, reg } from '@/api/login';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 export default {
-  name: "reg",
+  name: 'reg',
   data () {
     return {
-      username: "",
-      name: "",
-      password: "",
-      repassword: "",
-      code: "",
-      svg: ""
+      username: '',
+      name: '',
+      password: '',
+      repassword: '',
+      code: '',
+      svg: ''
     };
   },
   components: {
@@ -177,14 +177,14 @@ export default {
     _getCode () {
       let sid = this.$store.state.sid;
       getCode(sid).then((res) => {
-        if (res.code === 200) {
+        if(res.code === 200) {
           this.svg = res.data;
         }
       });
     },
     async submit () {
       const isValid = await this.$refs.observer.validate();
-      if (!isValid) {
+      if(!isValid) {
         return false;
       }
       reg({
@@ -194,19 +194,19 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
-        if (res.code === 200) {
-          this.username = "";
-          this.password = "";
-          this.code = "";
+        if(res.code === 200) {
+          this.username = '';
+          this.password = '';
+          this.code = '';
           requestAnimationFrame(() => {
             this.$refs.observer.reset();
           });
           // 跳转到登录界面 让用户登录
-          this.$alert("注册成功");
+          this.$alert('注册成功');
           setTimeout(() => {
-            this.$router.push("/login");
+            this.$router.push('/login');
           }, 1000);
-        } else if (res.code === 401) {
+        } else if(res.code === 401) {
           // username -> '用户名已经注册'
           // reg.msg  -> {username:[],name:[],code:[]}
           this.$refs.codefield.setErrors([res.msg]);

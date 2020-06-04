@@ -19,11 +19,11 @@ export default {
   props: {
     type: {
       type: String,
-      default: "alert"
+      default: 'alert'
     },
     msg: {
       type: String,
-      dafault: "这是alert的消息"
+      dafault: '这是alert的消息'
     },
     isShow: {
       type: Boolean,
@@ -31,11 +31,11 @@ export default {
     },
     success: {
       type: Function,
-      default: () => { console.log("success"); }
+      default: () => { console.log('success'); }
     },
     cancel: {
       type: Function,
-      default: () => { console.log("cancel"); }
+      default: () => { console.log('cancel'); }
     }
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
       this.isShow = false;
     },
     closeMask () {
-      if (this.type === "alert") {
+      if(this.type === 'alert') {
         this.close();
       }
     },

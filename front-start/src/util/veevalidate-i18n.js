@@ -1,4 +1,4 @@
-import { extend, configure } from "vee-validate";
+import { extend, configure } from 'vee-validate';
 import {
   required,
   email,
@@ -6,23 +6,23 @@ import {
   length,
   confirmed,
   max
-} from "vee-validate/dist/rules";
-import { i18n } from "./i18n";
+} from 'vee-validate/dist/rules';
+import { i18n } from './i18n';
 
-extend("email", email);
-extend("min", min);
-extend("required", required);
-extend("length", length);
-extend("confirmed", confirmed);
-extend("max", max);
+extend('email', email);
+extend('min', min);
+extend('required', required);
+extend('length', length);
+extend('confirmed', confirmed);
+extend('max', max);
 
 // Custom validate
-extend("name", {
+extend('name', {
   validate: value => {
     console.log(/^\d+/.test(value));
     return !/^\d+/.test(value);
   },
-  message: "不能以纯数字为昵称"
+  message: '不能以纯数字为昵称'
 });
 
 configure({

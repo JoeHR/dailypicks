@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '@/store';
+import jwt from 'jsonwebtoken';
+import moment from 'dayjs';
 
 const Login = () => import(/* webpackChunkName: 'login' */ './views/Login.vue');
 const Reg = () => import(/* webpackChunkName: 'reg' */ './views/Reg.vue');
@@ -20,11 +23,11 @@ const Accounts = () => import(/* webpackChunkName: 'common-accounts' */ '@/compo
 const Passwd = () => import(/* webpackChunkName: 'common-passwd' */ '@/components/user/common/Passwd.vue');
 const PicUpload = () => import(/* webpackChunkName: 'common-picupload' */ '@/components/user/common/PicUpload.vue');
 const MyPost = () => import(/* webpackChunkName: 'common-post' */ '@/components/user/common/MyPost.vue');
-const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');
+const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');;
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   linkExactActiveClass: 'layui-this',
   // linkActiveClass: 'layui-this',
   routes: [
@@ -75,6 +78,7 @@ export default new Router({
     {
       path: '/center',
       component: Center,
+      meta: {requiresAuth: true},
       linkActiveClass: 'layui-this',
       children: [
         {
@@ -136,6 +140,63 @@ export default new Router({
           component: Other
         }
       ]
+      // beforeEnter: (to, from, next) => {
+      //   console.log('from', from);
+      //   console.log('to', to);
+      //   const isLogin = store.state.isLogin;
+      //   console.log('isLogin', isLogin);
+      //   if(isLogin) {
+      //     // 已经登陆
+      //     next();
+      //   } else {
+      //     const token = localStorage.getItem('token');
+      //     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      //     if(token !== '' && token !== null) {
+      //       // 取 localstorage 里面缓存的token 信息 + 用户信息
+      //       store.commit('setToken', token);
+      //       store.commit('setUserInfo', userInfo);
+      //       store.commit('setIsLogin', true);
+      //     }
+      //     // 未登录
+      //     next('/login');
+      //   }
+
+      // }
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(token !== '' && token !== null) {
+    const payload = jwt.decode(token);
+    console.log('payload', payload);
+    if(moment().isBefore(moment(payload.exp * 1000))) {
+      // 判断 token 是否过期
+      store.commit('setToken', token);
+      store.commit('setUserInfo', userInfo);
+      store.commit('setIsLogin', true);
+    } else {
+      localStorage.clear();
+    }
+    // 取 localstorage 里面缓存的token 信息 + 用户信息
+    next();
+  }
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    const isLogin = store.state.isLogin;
+    if(isLogin) {
+      // 已经登陆的状态
+      // 权限判断，meta元数据
+      next();
+    } else {
+    // 未登录
+      next('/login');
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
