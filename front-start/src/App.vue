@@ -28,24 +28,27 @@ export default {
 .gray {
   color: #999;
 }
+.orange{
+  color: #ff5722;
+}
 // .pd20{
 //   padding: 20px;
 // }
 @for $i from 0 through 5 {
   .pd#{$i}{
-    padding: $i*10 + px;
+    padding: $i*10 + px !important;
   }
   .pl#{$i}{
-    padding-left:$i*10 + px ;
+    padding-left:$i*10 + px !important;
   }
   .pt#{$i}{
-    padding-top:$i*10 + px ;
+    padding-top:$i*10 + px !important;
   }
   .pr#{$i}{
-    padding-right:$i*10 + px ;
+    padding-right:$i*10 + px !important;
   }
   .pb#{$i}{
-    padding-bottom:$i*10 + px ;
+    padding-bottom:$i*10 + px !important;
   }
 }
 .mt20{
@@ -66,5 +69,7 @@ export default {
 .pr0{
   padding-right: 0px;
 }
-
+.pull-right{
+  float: right;
+}
 </style>

@@ -57,7 +57,7 @@ class LoginController {
           delete userObj[item]
         })
         // 验证通过 返回 token 数据
-        const token = jsonwebtoken.sign({ _id: 'rh' }, config.JWT_SECRET, {
+        const token = jsonwebtoken.sign({ _id: userObj._id }, config.JWT_SECRET, {
           expiresIn: '1d'
         })
         ctx.body = {
