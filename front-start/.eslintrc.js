@@ -86,7 +86,7 @@ module.exports = {
     // http://eslint.org/docs/rules/comma-style
     "comma-style": [2, "last"],
     // 圈复杂度
-    complexity: [2, 9],
+    complexity: [2, 15],
     // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
     "computed-property-spacing": [2, "never"],
     // 强制方法必须返回值，TypeScript强类型，不配置
