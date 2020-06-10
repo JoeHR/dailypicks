@@ -38,6 +38,7 @@
 import SignInfo from './SignInfo';
 import SignList from './SignList';
 import {userSign} from '@/api/user';
+import moment from 'dayjs';
 export default {
   name: 'Sign',
   components: {
@@ -46,7 +47,7 @@ export default {
   },
   data () {
     return {
-      isLogin: this.$stroe.state.isLogin,
+      isLogin: this.$store.state.isLogin,
       isShow: false,
       isShowList: false,
       isSign: this.$store.state.userInfo.isSign
@@ -83,6 +84,21 @@ export default {
       }
     }
   },
+  mounted () {
+    // 判断用户的上一次签到时间与签到状态
+    // 如果用户上一次签到时间于当天的签到日期相差一天，允许用户进行签到
+    const isSign = this.$store.state.userInfo.isSign;
+    const lastSign = this.$store.state.userInfo.lastSign;
+    const nowDate = moment().format('YYYY-MM-DD');
+    const lastDate = moment(lastSign).format('YYYY-MM-DD');
+    const diff = moment(nowDate).diff(moment(lastDate), 'day');
+    if(diff > 0 && isSign) {
+      this.isSign = false;
+    } else {
+      this.isSign = isSign;
+    }
+
+  },
   methods: {
     showInfo () {
       this.isShow = true;
@@ -96,20 +112,23 @@ export default {
     },
     sign () {
       if(!this.isLogin) {
-        this.$alert('请先登录');
+        this.$pop('shake', '请先登录');
         return;
       }
       userSign().then(res => {
         let user = this.$store.state.userInfo;
         if(res.code === 200) {
-          this.isSign = true;
           user.favs = res.data.favs;
           user.count = res.data.count;
-          this.$stor.commit('setUserInfo', user);
+          this.$store.commit('setUserInfo', user);
+          this.$pop('', '签到成功');
         } else {
           // 用户已经签到
-          this.$alert('用户已经签到');
+          this.$pop('', '您已经签到');
         }
+        this.isSign = true;
+        user.isSign = true;
+        user.lastSign = res.data.lastSign;
       });
     }
   }

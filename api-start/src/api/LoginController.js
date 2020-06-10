@@ -62,14 +62,16 @@ class LoginController {
           expiresIn: '1d'
         })
         // 加入 isSign 属性
-        const signRecord = await SignRecord.findByUid({ _id: userObj._id })
+        const signRecord = await SignRecord.findByUid(userObj._id)
         if (signRecord !== null) {
           if (moment(signRecord.created).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')) {
             userObj.isSign = true
           } else {
             userObj.isSign = false
           }
+          userObj.lastSign = signRecord.created
         } else {
+          // 用户无签到记录
           userObj.isSign = false
         }
         ctx.body = {

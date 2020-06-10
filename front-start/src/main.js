@@ -7,8 +7,10 @@ import axios from 'axios';
 
 import '@/util/veevalidate-i18n';
 import Alert from './components/modules/alert';
+import Pop from './components/modules/pop';
 
 Vue.use(Alert);
+Vue.use(Pop);
 
 Vue.config.productionTip = false;
 

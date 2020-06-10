@@ -22,7 +22,7 @@ class UserController {
       if (moment(record.created).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')) {
         ctx.body = {
           code: 500,
-          data: { favs: user.favs, count: user.count },
+          data: { favs: user.favs, count: user.count, lastSign: record.created },
           msg: '用户已经签到'
         }
         return
@@ -93,7 +93,7 @@ class UserController {
     ctx.body = {
       code: 200,
       msg: '请求成功',
-      data: { ...result }
+      data: { ...result, lastSign: newRecord.created }
     }
   }
 }

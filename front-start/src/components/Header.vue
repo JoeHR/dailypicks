@@ -133,7 +133,7 @@ export default {
         this.$store.commit('setToken', '');
         this.$store.commit('setUserInfo', '');
         this.$store.commit('sertIsLogin', false);
-        this.$router.push('/');
+        this.$router.push('/login');
       }, () => {})
       ;
     }
