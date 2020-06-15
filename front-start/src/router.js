@@ -25,6 +25,8 @@ const PicUpload = () => import(/* webpackChunkName: 'common-picupload' */ '@/com
 const MyPost = () => import(/* webpackChunkName: 'common-post' */ '@/components/user/common/MyPost.vue');
 const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');;
 
+const NotFound = () => import(/* webpackChunkName: 'NotFound' */ '@/views/NotFound.vue');;
+
 Vue.use(Router);
 
 const router = new Router({
@@ -162,6 +164,13 @@ const router = new Router({
       //   }
 
       // }
+    }, {
+      path: '/404',
+      component: NotFound
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 });

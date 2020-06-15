@@ -1,54 +1,70 @@
 <template>
   <!-- 基本设置 -->
   <div class="layui-form layui-form-pane layui-tab-item layui-show">
-    <form method="post">
+    <validation-observer ref="observer" v-slot="{ validate }">
       <div class="layui-form-item">
-        <label for="L_email" class="layui-form-label">邮箱</label>
-        <div class="layui-input-inline">
-          <input
-            type="text"
-            id="L_email"
-            name="email"
-            required
-            lay-verify="email"
-            autocomplete="off"
-            value
-            class="layui-input"
-          />
-        </div>
-        <div class="layui-form-mid layui-word-aux">
-          如果您在邮箱已激活的情况下，变更了邮箱，需
-          <a
-            href="activate.html"
-            style="font-size: 12px; color: #4f99cf;"
-          >重新验证邮箱</a>。
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <label for="L_username" class="layui-form-label">昵称</label>
-        <div class="layui-input-inline">
-          <input
-            type="text"
-            id="L_username"
-            name="username"
-            required
-            lay-verify="required"
-            autocomplete="off"
-            value
-            class="layui-input"
-          />
-        </div>
-        <div class="layui-inline">
+        <validation-provider name="email" rules="required|email" v-slot="{ errors }">
+          <label for="L_email" class="layui-form-label">邮箱</label>
           <div class="layui-input-inline">
-            <input type="radio" name="sex" value="0" checked title="男" />
-            <input type="radio" name="sex" value="1" title="女" />
+            <input
+              type="text"
+              name="email"
+              required
+              autocomplete="off"
+              class="layui-input"
+              v-model="username"
+            />
           </div>
-        </div>
+          <!-- <div class="layui-form-mid layui-word-aux">
+            如果您在邮箱已激活的情况下，变更了邮箱，需
+            <a
+              href="activate.html"
+              style="font-size: 12px; color: #4f99cf;"
+            >重新验证邮箱</a>。
+          </div>-->
+          <div class="layui-form-mid">
+            <span style="color: #c00;">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
       </div>
+      <div class="layui-form-item">
+        <validation-provider name="name" rules="required|name" v-slot="{ errors }">
+          <label for="L_username" class="layui-form-label">昵称</label>
+          <div class="layui-input-inline">
+            <input
+              type="text"
+              name="username"
+              autocomplete="off"
+              v-model="name"
+              class="layui-input"
+            />
+          </div>
+
+          <div class="layui-form-mid">
+            <span style="color: #c00;">{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+      </div>
+
       <div class="layui-form-item">
         <label for="L_city" class="layui-form-label">城市</label>
         <div class="layui-input-inline">
-          <input type="text" id="L_city" name="city" autocomplete="off" value class="layui-input" />
+          <input type="text" name="city" v-model="location" autocomplete="off" class="layui-input" />
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label for="L_city" class="layui-form-label">性别</label>
+        <div class="layui-input-inline gray mt1 ml1">
+          <label for="gender1">
+            <input v-model="gender" type="radio" name="sex" id="gender1" value="0" title="男" />
+            <i class="layui-icon layui-icon-circle" :class="{'layui-icon-radio':gender==='0'}"></i>
+            男
+          </label>
+          <label for="gender2">
+            <input v-model="gender" type="radio" name="sex" id="gender2" value="1" title="女" />
+            <i class="layui-icon layui-icon-circle" :class="{'layui-icon-radio':gender==='1'}"></i>
+            女
+          </label>
         </div>
       </div>
       <div class="layui-form-item layui-form-text">
@@ -56,26 +72,71 @@
         <div class="layui-input-block">
           <textarea
             placeholder="随便写些什么刷下存在感"
-            id="L_sign"
-            name="sign"
-            autocomplete="off"
+            v-model="regmark"
             class="layui-textarea"
             style="height: 80px;"
           ></textarea>
         </div>
       </div>
       <div class="layui-form-item">
-        <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+        <button
+          class="layui-btn"
+          key="set-mine"
+          lay-filter="*"
+          lay-submit
+          @click="validate().then(submit)"
+        >确认修改</button>
       </div>
-    </form>
+    </validation-observer>
   </div>
 </template>
 
 <script>
+import {updateUserInfo} from '@/api/user';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 export default {
-  name: 'MyInfo'
+  name: 'MyInfo',
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  data () {
+    return {
+      gender: '',
+      username: '',
+      name: '',
+      location: '',
+      regmark: ''
+    };
+  },
+  mounted () {
+    let {username, name, location, gender, regmark} = this.$store.state.userInfo;
+    this.username = username || '';
+    this.name = name || '';
+    this.location = location || '';
+    this.gender = gender || '';
+    this.regmark = regmark || '';
+  },
+  methods: {
+    async submit () {
+      const isValid = await this.$refs.observer.validate();
+      if(!isValid) {
+        return;
+      }
+      updateUserInfo({
+        username: this.username,
+        name: this.name,
+        location: this.location,
+        gender: this.gender,
+        regmark: this.regmark
+      });
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.layui-icon-radio {
+  color: #5fb878;
+}
 </style>

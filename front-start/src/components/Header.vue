@@ -26,7 +26,7 @@
         <!-- 未登入的状态 -->
         <template v-if="!isShow">
           <li class="layui-nav-item">
-            <a class="iconfont icon-touxiang layui-hide-xs" href="../user/login.html"></a>
+            <router-link class="iconfont icon-touxiang layui-hide-xs" to="/user231321"></router-link>
           </li>
           <li class="layui-nav-item">
             <router-link :to="{name:'login'}">登入</router-link>
@@ -65,19 +65,19 @@
             </a>
             <dl class="layui-nav-child layui-anim layui-anim-upbit" :class="{'layui-show':isHover}">
               <dd>
-                <a href="user/set.html">
+                <router-link to="./center/set">
                   <i class="layui-icon">&#xe620;</i>基本设置
-                </a>
+                </router-link>
               </dd>
               <dd>
-                <a href="user/message.html">
+                <router-link to="./center/msg">
                   <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息
-                </a>
+                </router-link>
               </dd>
               <dd>
-                <a href="user/home.html">
+                <router-link to="./center">
                   <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页
-                </a>
+                </router-link>
               </dd>
               <hr style="margin: 5px 0;" />
               <dd>
@@ -132,8 +132,8 @@ export default {
         localStorage.clear();
         this.$store.commit('setToken', '');
         this.$store.commit('setUserInfo', '');
-        this.$store.commit('sertIsLogin', false);
-        this.$router.push('/login');
+        this.$store.commit('setIsLogin', false);
+        this.$router.push({name: 'index'}, () => {});
       }, () => {})
       ;
     }
