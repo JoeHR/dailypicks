@@ -48,13 +48,15 @@ export default {
   data () {
     return {
       isShow: false,
-      isShowList: false,
-      isSign: this.$store.state.userInfo.isSign
+      isShowList: false
     };
   },
   computed: {
     isLogin () {
       return this.$store.state.isLogin;
+    },
+    isSign () {
+      return this.$store.state.userInfo.isSign;
     },
     favs () {
       let count = parseInt(this.count, 10);
@@ -122,7 +124,6 @@ export default {
         if(res.code === 200) {
           user.favs = res.data.favs;
           user.count = res.data.count;
-          this.$store.commit('setUserInfo', user);
           this.$pop('', '签到成功');
         } else {
           // 用户已经签到
@@ -131,6 +132,7 @@ export default {
         this.isSign = true;
         user.isSign = true;
         user.lastSign = res.data.lastSign;
+        this.$store.commit('setUserInfo', user);
       });
     }
   }

@@ -14,11 +14,11 @@ import errorHandle from './common/ErrorHandle'
 
 const app = new koa()
 
-const isDevMode = process.env.NODE_ENV === 'production' ? false : true
+const isDevMode = process.env.NODE_ENV !== 'production'
 
 // 定义公共路径，不需要jwt鉴权
 const jwt = JWT({ secret: config.JWT_SECRET }).unless({
-  path: [/^\/public/, /\/login/],
+  path: [/^\/public/, /\/login/]
 })
 
 /**
@@ -31,7 +31,7 @@ const middleware = compose([
   jsonutil({ pretty: false, param: 'pretty' }),
   helmet(),
   errorHandle,
-  jwt,
+  jwt
 ])
 
 if (!isDevMode) {
