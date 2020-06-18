@@ -12,6 +12,7 @@ async function send (sendInfo) {
     host: 'smtp.163.com',
     // port: 587,
     // secure: false, // true for 465, false for other ports
+    secure: true,
     auth: {
       user: 'joeraoh@163.com', // generated ethereal user
       pass: 'HEEQIWCBYZKLCCKM' // generated ethereal password
@@ -31,7 +32,7 @@ async function send (sendInfo) {
 
   // send mail with defined transport object
   const info = await transporter.sendMail({
-    from: '"认证邮件" <imoocbrian@qq.com>', // sender address
+    from: '"认证邮件" <joeraoh@163.com>', // sender address
     to: sendInfo.email, // list of receivers
     subject:
       sendInfo.user !== '' && sendInfo.type !== 'email'

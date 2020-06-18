@@ -120,7 +120,8 @@ class UserController {
         key: key,
         code: '',
         expire: moment().add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-        email: user.username,
+        // email: user.username,
+        email: '2452052376@qq.com',
         user: user.name
       })
       ctx.body = {
