@@ -23,9 +23,11 @@ const Accounts = () => import(/* webpackChunkName: 'common-accounts' */ '@/compo
 const Passwd = () => import(/* webpackChunkName: 'common-passwd' */ '@/components/user/common/Passwd.vue');
 const PicUpload = () => import(/* webpackChunkName: 'common-picupload' */ '@/components/user/common/PicUpload.vue');
 const MyPost = () => import(/* webpackChunkName: 'common-post' */ '@/components/user/common/MyPost.vue');
-const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');;
+const MyCollection = () => import(/* webpackChunkName: 'common-collection' */ '@/components/user/common/MyCollection.vue');
 
-const NotFound = () => import(/* webpackChunkName: 'NotFound' */ '@/views/NotFound.vue');;
+const NotFound = () => import(/* webpackChunkName: 'NotFound' */ '@/views/NotFound.vue');
+const Confirm = () => import(/* webpackChunkName: 'Confirm' */ '@/views/Confirm.vue');
+const Reset = () => import(/* webpackChunkName: 'NotFound' */ '@/views/Reset.vue');
 
 Vue.use(Router);
 
@@ -53,6 +55,16 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: Confirm
+    },
+    {
+      path: '/reset',
+      name: 'reset',
+      component: Reset
     },
     {
       path: '/reg',
