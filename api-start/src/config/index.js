@@ -1,3 +1,4 @@
+import path from 'path'
 const DB_URL = 'mongodb://test:123456@116.62.114.170:27017/testdb'
 const REDIS = {
   host: '116.62.114.170',
@@ -9,9 +10,12 @@ const JWT_SECRET = 'a&*38QthAKuiRwISGLotgq^3%^$zvA3A6Hfr8MF$jM*HY4*dWcwAW&9NGp7*
 
 const baseUrl = process.env.NODE_ENV === 'production' ? 'http://www.toimc.com' : 'http://localhost:8080'
 
+const uploadPath = process.env.NODE_ENV === 'production' ? '/app/public' : path.join(path.resolve(__dirname), '../../public')
+
 export default {
   DB_URL,
   REDIS,
   JWT_SECRET,
-  baseUrl
+  baseUrl,
+  uploadPath
 }

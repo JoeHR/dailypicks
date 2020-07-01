@@ -3,6 +3,7 @@ import combineRoutes from 'koa-combine-routers'
 import publicRouter from './modules/publicRouter'
 import loginRouter from './modules/loginRouter'
 import userRouter from './modules/userRouter'
+import contentRouter from './modules/contentRouter'
 
 // const moduleFiles = require.context('./modules', true, /\.js$/)
 // const moduleFiles = requireContext('../../src/routes/modules', true, /\.js$/)
@@ -14,10 +15,10 @@ import userRouter from './modules/userRouter'
 //   return items
 // }, [])
 
-
 export default combineRoutes(
   publicRouter,
   loginRouter,
-  userRouter
+  userRouter,
+  contentRouter
   // modules
 )

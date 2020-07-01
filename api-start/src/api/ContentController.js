@@ -1,5 +1,9 @@
 import Post from '../model/Post'
 import Links from '../model/Links'
+import fs from 'fs'
+import { v4 as uuid } from 'uuid'
+import moment from 'dayjs'
+import config from '../config'
 
 class ContentController {
   async getPostList (ctx) {
@@ -76,6 +80,15 @@ class ContentController {
       code: 200,
       data: result
     }
+  }
+
+  // 上传图片
+  async uploadImg (ctx) {
+    const file = ctx.request.files.file
+    // 图片名称，图片格式，存储的位置，返回前台可以读取的路径
+    const ext = file.name.split('.').pop()
+    const dir = `${config.uploadPath}/${moment().format('YYYYMMDD')}`
+    console.log(ext, dir)
   }
 }
 

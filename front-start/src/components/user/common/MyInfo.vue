@@ -129,6 +129,19 @@ export default {
         location: this.location,
         gender: this.gender,
         regmark: this.regmark
+      }).then(res => {
+        if(res.code === 200) {
+          this.$store.commit('setUserInfo', {
+            ...this.$store.state.userInfo,
+            ...{
+              username: this.username,
+              name: this.name,
+              location: this.location,
+              gender: this.gender,
+              regmark: this.regmark
+            }
+          });
+        }
       });
     }
   }
