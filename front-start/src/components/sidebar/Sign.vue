@@ -96,12 +96,10 @@ export default {
     const nowDate = moment().format('YYYY-MM-DD');
     const lastDate = moment(lastSign).format('YYYY-MM-DD');
     const diff = moment(nowDate).diff(moment(lastDate), 'day');
+    const userInfo = this.$store.state.userInfo;
     if(diff > 0 && isSign) {
-      this.isSign = false;
-    } else {
-      this.isSign = isSign;
+      this.$store.dispatch('setUserInfo', {...userInfo, isSign: false});
     }
-
   },
   methods: {
     showInfo () {
@@ -129,7 +127,7 @@ export default {
           // 用户已经签到
           this.$pop('', '您已经签到');
         }
-        this.isSign = true;
+        // this.isSign = true;
         user.isSign = true;
         user.lastSign = res.data.lastSign;
         this.$store.commit('setUserInfo', user);
