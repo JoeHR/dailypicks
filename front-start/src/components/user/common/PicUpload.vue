@@ -19,7 +19,8 @@
 
 <script>
 import {uploadImg} from '@/api/content';
-// import {updateUserInfo} from '@/api/user';
+import config from '@/config';
+import {updateUserInfo} from '@/api/user';
 export default {
   name: 'PicUpload',
   data () {
@@ -30,7 +31,6 @@ export default {
   },
   methods: {
     upload (e) {
-      console.log('upload -> e', e);
       let file = e.target.files;
       let formData = new FormData();
       if(file.length > 0) {
@@ -39,18 +39,23 @@ export default {
       }
       // 上传图片之后
       uploadImg(this.formData).then(res => {
+        if(res.code === 200) {
+          const baseUrl = process.env.NODE_ENV === 'production' ? config.baseUrl.pro : config.baseUrl.dev;
+          this.pic = baseUrl + res.data;
+          // 更新用户基本资料
 
-        // 更新用户基本资料
-        // updateUserInfo({pic: this.pic}).then(res => {
-        //   if(res.code === 200) {
-        //     // 修改全局的 store 内的用户信息
-        //     let user = this.$store.state.updateUserInfo;
-        //     user.pic = this.pic;
-        //     this.$store.commit('setUserInfo', user);
-        //     this.$alert('图片上传成功');
-        //   }
-        // });
+          updateUserInfo({pic: this.pic}).then(res => {
+            if(res.code === 200) {
+            // 修改全局的 store 内的用户信息
+              let user = this.$store.state.userInfo;
+              user.pic = this.pic;
+              this.$store.commit('setUserInfo', user);
+              this.$alert('图片上传成功');
+            }
+          });
+        }
       });
+      document.getElementById('pic').value = '';
     }
   }
 };

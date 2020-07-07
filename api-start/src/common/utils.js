@@ -14,7 +14,6 @@ import config from '../config/index'
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
-import { resolve } from 'bluebird'
 
 const getJWTPayload = token => {
   return jwt.verify(token.split(' ')[1], config.JWT_SECRET)
@@ -35,7 +34,7 @@ const checkCode = async (key, value) => {
 
 const getStats = (path) => {
   return new Promise(resolve => {
-    fs.stats(path, (err, stats) => err ? resolve(err) : resolve(stats))
+    fs.stat(path, (err, stats) => err ? resolve(err) : resolve(stats))
   })
 }
 
@@ -51,7 +50,7 @@ const dirExists = async (dir) => {
   // 如果该路径存在且不是文件，返回 true
   if (isExists && isExists.isDirector()) {
     return true
-  } else {
+  } else if (isExists) {
     return false
   }
   // 如果该路径不存在
@@ -60,6 +59,7 @@ const dirExists = async (dir) => {
   const status = await dirExists(tempDir)
   if (status) {
     const result = await mkdir(dir)
+    console.log('dirExists -> result', result)
     return result
   } else {
     return false
