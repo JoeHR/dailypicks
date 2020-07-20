@@ -13,7 +13,7 @@
     "core-js": "^3.6.4",
     "dayjs": "^1.8.28",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.26.0",
     "qs": "^6.9.4",
     "svg-captcha": "^1.4.0",
