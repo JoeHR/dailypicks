@@ -15,7 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
-    "qs": "^6.9.4",
+    "qs": "^6.9.7",
     "svg-captcha": "^1.4.0",
     "uuid": "^7.0.3",
     "vee-validate": "^3.0.8",
